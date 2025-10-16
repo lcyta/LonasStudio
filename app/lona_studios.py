@@ -2,6 +2,7 @@ import streamlit as st
 from utils.data_loader import load_lona_data
 from utils.visualizations import show_lona_charts_go
 from utils.daily_charts import show_lona_daily_chart
+from utils.monthly_charts import show_lona_monthly_chart
 import pandas as pd
 
 
@@ -48,18 +49,8 @@ def show_lona_page():
             show_lona_daily_chart(df_filtered)
 
         with st.expander("Ver gráficos Salida de Lona Mensual", expanded=False):
-            if "Fecha" in df.columns:
-                min_date = df["Fecha"].min()
-                max_date = df["Fecha"].max()
-                start_date = st.date_input("Fecha inicio", min_date, key="start_date_daily")
-                end_date = st.date_input("Fecha fin", max_date, key="end_date_daily")
-
-                df_filtered = df[(df["Fecha"] >= pd.to_datetime(start_date)) & (df["Fecha"] <= pd.to_datetime(end_date))]
-            else:
-                df_filtered = df
-                st.warning("No se encontró la columna 'Fecha' en el dataset.")
-
-            show_lona_daily_chart(df_filtered)
+            show_lona_monthly_chart(df)
+            
 
 
     except FileNotFoundError as e:
